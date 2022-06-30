@@ -1,0 +1,10 @@
+# Introduction {#Intro}
+
+You can call your first chapter (and all the others) whatever you wish, but it is usual to start with an introduction to your project and, perhaps, a discussion of some background literature.
+
+When you are discussing other people's work, you might find the following snippets of \LaTeX\ helpful.  You might make references like these if you want to discuss the work of @lambert and @dellas within a sentence. Then, later, you might also want to make some parenthetic references to support an argument that you are making, like this [@lambert].  (I'm not aware of equivalents to commands such as `\citeyear` and `\citeauthor`, but you should be able to manage without these.)
+
+In the next chapter, we provide some more snippets that you might find useful.  We do not give advice about the structure of the dissertation here, since that is covered in the separate document on Dissertation Expectations (on Blackboard), but do remember the very strict page limit of 70 pages in the main matter of your dissertation (all Chapters, but not references or appendices). Those working on theoretical topics, with little need for figures and tables in their dissertation, should aim for considerably fewer than 70 pages (typically 30--50).  If you do submit something longer, examiners will read only the first 70 pages (or 50  pages of more theoretical material).  Note too that, regardless of length, any material in appendices will only be inspected cursorily by examiners. You should thus use appendices judiciously.
+
+
+

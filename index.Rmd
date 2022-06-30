@@ -1,0 +1,53 @@
+--- 
+site: bookdown::bookdown_site
+output:
+  bookdown::pdf_document2:
+    keep_tex: true
+    includes:
+      before_body: frontpage.tex
+      in_header: preamble.tex
+documentclass: book
+fontsize: 12pt
+classoption: twoside
+papersize: a4
+toc: false
+bibliography: [references.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+---
+
+```{r setup, include=FALSE}
+# You can set global chunk options here
+# These can be temporarily overwritten within
+# any code chunk
+knitr::opts_chunk$set(echo = FALSE,
+                      fig.pos = 'H',
+                      fig.align = 'center',
+                      out.width = '80%')
+```
+
+
+# Acknowledgements {-}
+
+I would like to thank...
+
+# Lay Summary of the Dissertation {-}
+
+Please provide here a summary of your dissertation aimed at a lay reader i.e.\ someone with a good general education, but no university level training in mathematics or statistics.   It should summarise the content, method and results and be one to two pages in length. If in doubt about the content or style of this chapter, please consult your Dissertation Support Worker.
+
+\tableofcontents
+
+\fancyhead{}
+\fancyfoot{}
+\pagestyle{fancy}
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[LO,RE]{\rightmark}
+
+\newcommand{\studentcomment}[1]{\todo[inline, backgroundcolor=blue!30]{\textsc{Student:} #1}}
+\newcommand{\DSWcomment}[1]{\todo[inline, backgroundcolor=green!30]{\textsc{DSW:} #1}}
+\newcommand{\supcomment}[1]{\todo[inline, backgroundcolor=red!30]{\textsc{Supervisor:} #1}}
+
+
+\mainmatter
+
