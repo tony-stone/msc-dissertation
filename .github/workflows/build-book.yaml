@@ -34,11 +34,11 @@ jobs:
           restore-keys: bookdown-
 
       - name: Build pdf
-        run: Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::pdf_document2", quiet = TRUE)'
+        run: bookdown::render_book("index.Rmd", "bookdown::pdf_document2", quiet = TRUE)
         shell: Rscript {0}
 
       - name: Build html site
-        run: Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::gitbook", quiet = TRUE)'
+        run: bookdown::render_book("index.Rmd", "bookdown::gitbook", quiet = TRUE)
         shell: Rscript {0}
 
       - name: Install Node.js
