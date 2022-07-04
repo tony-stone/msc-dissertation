@@ -4,7 +4,6 @@ documentclass: book
 fontsize: 12pt
 classoption: twoside
 papersize: a4
-toc: false
 bibliography: [references.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
