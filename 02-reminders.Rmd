@@ -2,7 +2,7 @@
 
 You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(Intro). 
 
-For all the basics of typesetting, that you are likely to need in your dissertation, please use the handouts on \LaTeX\ that you were given earlier in the MSc or consult or the single document on \LaTeX\ provided on the dissertation Blackboard page.  Below we provide further snippets of code, inspired by the Wikipedia entry on L\'{e}vy's continuity theorem, to remind you of some key typesetting concepts that you should be aware of.
+For all the basics of typesetting, that you are likely to need in your dissertation, please use the handouts on \LaTeX\ that you were given earlier in the MSc or consult or the single document on \LaTeX\ provided on the dissertation Blackboard page.  Below we provide further snippets of code, inspired by the Wikipedia entry on L'evy's continuity theorem, to remind you of some key typesetting concepts that you should be aware of.
 
 Before we do that, however, just a quick note on commenting on your writing. Note that we have defined some extra \LaTeX\ commands within this template to help when discussing your writing with others. You are not required to use these commands, but we hope that you (and the staff working with you) might find them useful. 
 \supcomment{This is a comment on the student's work by the supervisor.}
@@ -11,7 +11,7 @@ Before we do that, however, just a quick note on commenting on your writing. Not
 
 ## A key theorem 
 
-Later we will find it useful to remember L\'{e}vy's continuity theorem (Theorem \@ref(thm:levy)), which we do not prove since it is fairly well known, but complete proofs are available in Section 18.1 of @Williams and Theorems 14.15 and 18.21 of @Fristedt.
+Later we will find it useful to remember L'evy's continuity theorem (Theorem \@ref(thm:levy)), which we do not prove since it is fairly well known, but complete proofs are available in Section 18.1 of @Williams and Theorems 14.15 and 18.21 of @Fristedt.
 
 ```{theorem, label = "levy", echo = TRUE}
 Suppose we have
@@ -19,9 +19,9 @@ Suppose we have
 - a sequence of random variables $\{X_n\}_{n=1}^\infty$, not necessarily sharing a common probability space,
 - the sequence of corresponding characteristic functions $\{\varphi_n\}_{n=1}^\infty$, which by definition are:
 $$
-\varphi_n(t) = \E e^{itX_n} \quad \forall t\in\mathbb{R},\ \forall n\in\mathbb{N},
+\varphi_n(t) = \mathbb{E}[e^{itX_n}] \quad \forall t\in\mathbb{R},\ \forall n\in\mathbb{N},
 $$
-where $\E$ is the expected value operator.
+where $\mathbb{E}$ is the expected value operator.
 
 If the sequence of characteristic functions converges pointwise to some function~$\varphi$ where
 $$\varphi_n(t)\to\varphi(t) \quad \forall t\in\mathbb{R},$$
@@ -31,7 +31,7 @@ then the following statements become equivalent:
 $$X_n\ \xrightarrow{\mathcal D}\ X,$$
 i.e.\ the cumulative distribution functions corresponding to random variables converge at every continuity point of the c.d.f.\ of $X$;
 - $\{X_n\}_{n=1}^\infty$is tight: 
-$$\lim_{x\to\infty}\left( \sup_n \Prob\big[\, |X_n|>x \,\big]\right) = 0;$$
+$$\lim_{x\to\infty}\left( \sup_n P\big[\, |X_n|>x \,\big]\right) = 0;$$
 - $\varphi(t)$ is a characteristic function of some random variable $X$;
 - $\varphi(t)$ is a continuous function of $t$;
 - $\varphi(t)$ is continuous at $t=0$.
