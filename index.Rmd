@@ -1,11 +1,5 @@
 --- 
 site: bookdown::bookdown_site
-output:
-  bookdown::pdf_document2:
-    keep_tex: true
-    includes:
-      before_body: frontpage.tex
-      in_header: preamble.tex
 documentclass: book
 fontsize: 12pt
 classoption: twoside
@@ -14,17 +8,15 @@ toc: false
 bibliography: [references.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
 ---
 
-```{r setup, include=FALSE}
-# You can set global chunk options here
-# These can be temporarily overwritten within
-# any code chunk
+```{r setup, include = FALSE}
+
 knitr::opts_chunk$set(echo = FALSE,
                       fig.pos = 'H',
                       fig.align = 'center',
                       out.width = '80%')
+
 ```
 
 
@@ -50,4 +42,3 @@ Please provide here a summary of your dissertation aimed at a lay reader i.e.\ s
 
 
 \mainmatter
-

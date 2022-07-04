@@ -1,0 +1,55 @@
+on:
+  push:
+    branches: master
+
+name: Build and deploy
+
+jobs:
+  build-and-deploy:
+    concurrency: cd-${{ github.ref }}
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.2.1'
+          use-public-rspm: true
+
+      - name: setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: '2.17.1.1'
+
+      - name: Setup and cache renv
+        uses: r-lib/actions/setup-renv@v2
+
+      - name: Cache bookdown build
+        uses: actions/cache@v2
+        with:
+          path: _bookdown_files
+          key: bookdown-${{ hashFiles('**/*Rmd') }}
+          restore-keys: bookdown-
+
+      - name: Build pdf
+        run: Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::pdf_document2", quiet = TRUE)'
+        shell: Rscript {0}
+
+      - name: Build html site
+        run: Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::gitbook", quiet = TRUE)'
+        shell: Rscript {0}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.15.1
+
+      - name: Deploy to Netlify 🚀
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          npm install netlify-cli -g
+          netlify deploy --prod --dir _book-html-pdf-output
