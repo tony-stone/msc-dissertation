@@ -46,6 +46,9 @@ jobs:
         run: bookdown::render_book("index.Rmd", "bookdown::gitbook", quiet = TRUE)
         shell: Rscript {0}
 
+      - name: Copy figures dir into www root
+        run: cp -r ${{ github.workspace }}/figures ${{ github.workspace }}/_book-html-pdf-output
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
