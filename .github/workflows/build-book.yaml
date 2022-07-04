@@ -23,6 +23,11 @@ jobs:
         with:
           pandoc-version: '2.17.1.1'
 
+      - name: Install TinyTex
+        uses: r-lib/actions/setup-tinytex@v2
+        env:
+          TINYTEX_VERSION: 2022.05
+
       - name: Setup and cache renv
         uses: r-lib/actions/setup-renv@v2
 
