@@ -15,7 +15,7 @@ Records with a match weight between the lower and upper threshold (or a sample t
 
 Frequently it is the case that there are more than two records belonging to the same entity in an entity resolution process. When this is the case a further step is required to identify the set of records belonging to each entity, clustering. Clustering is the process of labeling all records deemed to belong to the same entity with a unique identifier for that entity. The outputs of the Fellegi-Sunter record linkage process is compared pairs of records. It may be the case that a record linkage process involving three records (A,B,C) results in pairs AB and BC being assigned a match weight greater than an identified match weight threshold but pair AC being assigned a match weight lower than this threshold. In such cases transitive closure is often applied. Under transitive closure records A and C are deemed to belong to the same entity also.
 
-# Graph representation of record linkage outputs
+## Graph representation of record linkage outputs
 
 The outputs of a pairwise record linkage process are naturally represented by undirected graphs consisting of a vertex for each record and an edge for each pairwise comparison of records.
 
@@ -25,7 +25,7 @@ A second representation may include all edges (or only those above some other th
 
 A third representation may include not just the overall match weight of pairwise record comparisons (edges) but also, for each compared attribute, the contributing components to the overall match weight as additional edge attributes.
 
-# Graph measures
+## Graph measures
 
 Say something about how graph measures may be used to identify false positive 
 links...

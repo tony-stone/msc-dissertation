@@ -1,6 +1,6 @@
 # Some reminders {#reminders}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(Intro). 
+You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). 
 
 For all the basics of typesetting, that you are likely to need in your dissertation, please use the handouts on \LaTeX\ that you were given earlier in the MSc or consult or the single document on \LaTeX\ provided on the dissertation Blackboard page.  Below we provide further snippets of code, inspired by the Wikipedia entry on L'evy's continuity theorem, to remind you of some key typesetting concepts that you should be aware of.
 
