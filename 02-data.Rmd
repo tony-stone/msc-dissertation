@@ -1,3 +1,17 @@
 # Data {#data}
 
-Something about the data ...
+There is a lack of publicly available, representative datasets for the 
+evaluation of data linkage processes[@ferrante2012]. "Gold-standard" linked 
+datasets are few and, due to confidentiality laws, sharing seldom possible.
+
+This study used a subset of data collected from Wikimedia's Wikidata Query Service for 
+Wikidata entries classed as human. The final dataset consisted of 113,232
+distinct individuals listed as British (UK) citizens. The dataset with fields for:
+* Unique person ID (assigned by Wikidata) [0.0%]
+* first name [0.0%]
+* surname [0.7%]
+* date of birth [5.3%]
+* place of birth [0.0%] (these were randomly assigned if not present in the extracted Wikidata)
+* postcode (these are valid UK postcodes assigned based on place of birth) [0.0%]
+* gender [1.0%]
+* occupation [29.6%]
