@@ -12,14 +12,20 @@ Use appendicies only for material that is directly relevant to the contents of y
 
 ## Proof 1
 
-# Research Ethics Approval
+# Research Ethics Approval {#ethics}
 
-The last appendix of your dissertation must contain evidence that you complied with the University of Sheffield research ethics approval process. Like all other appendices, it should be cross-referenced from the main text of the dissertation so that readers are alerted to its presence. The appendix should start with a paragraph of text, in your own words, that summarises the approval process as it applied to your dissertation. Here is an example to get you started.
-
-The research ethics approval process for the work described in this dissertation was completed in March 2019, before any work using data commenced. Due to the use of data arising from {summarise the data collection process here}, formal research ethics approval was deemed to be necessary and, when submitted, the application was allocated reference number: 000094. Formal approval is evidenced here by inclusion of the final approval letter in Figure \@ref(fig:ethicsapprov).
+The proposal for the work conducted within this dissertation was assessed 
+through the School of Mathematics and Statistics ethical review procedure in 
+accordance with the University of Sheffield's Research Ethics Policy. 
+Ethical approval was granted in February 2020 before any relevant data related to this 
+dissertation was accessed. Research ethical review was required as some of 
+the data processed in this dissertation likely constitutes *personal data* as 
+defined in the UK data protection legislation. The research ethics application 
+was allocated reference number: 044945. Formal approval is evidenced here by 
+inclusion of the final approval letter in Figure \@ref(fig:ethicsapprov).
 
 \newpage
 
-```{r ethicsapprov, echo = FALSE, fig.cap = "The research ethics approval letter provided for the work outlined in this dissertation, following compliance with the University of Sheffield offical research ethics processes.", out.width='100%', fig.align='center'}
-knitr::include_graphics("figures/ApprovalLetterCrop.pdf")
+```{r ethicsapprov, echo = FALSE, fig.cap = "The research ethics approval letter provided for the work outlined in this dissertation, in full compliance with the University of Sheffield Research Ethics Policy.", out.width='100%', fig.align='center'}
+knitr::include_graphics("figures/ApprovalLetterCrop.jpg")
 ```
