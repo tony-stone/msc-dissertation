@@ -19,7 +19,7 @@ approval for the use of this data is discussed in Appendix \@ref(ethics).
 The supplied linkage evaluation dataset was cleaned of corrupted records 
 leaving a study dataset comprised of 113,232 records representing distinct 
 individuals (living and dead). The dataset consisted of 8 fields, detailed 
-in Table \ref(tab:fieldlist).
+in Table \@ref(tab:fieldlist).
 
 ```{r fieldlist}
 
@@ -50,8 +50,12 @@ field_list <- data.frame(`field name` = c("unique entity identifier",
 
 knitr::kable(field_list, 
              align = "lrl",
+             col.names = c("field name", 
+                           "missing values (%)", 
+                           "notes"),
              digits = 1,
              booktabs = TRUE,
-             caption = 'List of fields and percentage missing values in study dataset.')
+             caption = 'List of fields and percentage of missing values in study dataset.') |> 
+  kableExtra::kable_styling(latex_options = "striped", bootstrap_options = "striped")
 
 ```
