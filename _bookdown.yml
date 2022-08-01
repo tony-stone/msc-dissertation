@@ -1,4 +1,4 @@
-book_filename: "msc-dissertation.Rmd"
+book_filename: "msc-dissertation.rmd"
 delete_merged_file: true
 view: https://github.com/tony-stone/msc-dissertation/blob/master/%s
 edit: https://github.com/tony-stone/msc-dissertation/edit/master/%s

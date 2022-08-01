@@ -1,7 +1,9 @@
 # Data {#data}
 
+## Source of data
+
 There is a lack of publicly available, representative datasets for the 
-evaluation of data linkage processes[@ferrante2012]. "Gold-standard" linked 
+evaluation of data linkage processes [@ferrante2012]. "Gold-standard" linked 
 datasets are few and, due to confidentiality laws, sharing seldom possible.
 
 This study used datasets derived from data sampled from Wikimedia's publicly 
@@ -16,9 +18,11 @@ One such linkage evaluation dataset was made available to the author of this
 dissertation by the Ministry of Justice data linkage team. Research ethics 
 approval for the use of this data is discussed in Appendix \@ref(ethics).
 
+## Processed datasets
+
 The supplied linkage evaluation dataset was cleaned of corrupted records 
 leaving a study dataset comprised of 113,232 records representing distinct 
-individuals (living and dead). The dataset consisted of 8 fields, detailed 
+individuals. The processed dataset consisted of 8 fields, detailed 
 in Table \@ref(tab:fieldlist).
 
 ```{r fieldlist}
@@ -26,7 +30,9 @@ in Table \@ref(tab:fieldlist).
 field_list <- data.frame(`field name` = c("unique entity identifier",
                                           "first name",
                                           "family name",
-                                          "date of birth",
+                                          "day of birth",
+                                          "month of birth",
+                                          "year of birth",
                                           "place of birth",
                                           "postcode",
                                           "gender",
@@ -35,6 +41,8 @@ field_list <- data.frame(`field name` = c("unique entity identifier",
                                                  0,
                                                  0.7,
                                                  5.3,
+                                                 0,
+                                                 0,
                                                  0,
                                                  0,
                                                  1,
@@ -56,6 +64,56 @@ knitr::kable(field_list,
              digits = 1,
              booktabs = TRUE,
              caption = 'List of fields and percentage of missing values in study dataset.') |> 
+  kableExtra::kable_styling(latex_options = "striped", bootstrap_options = "striped")
+
+```
+
+## Test datasets
+
+Many man-made and natural phenomena are distributed according to a 
+power-law distribution, this includes frequency of patient attendance 
+at emergency departments and other out-of-hours care facilities 
+[@burton2018; @burton2022]. We therefore chose to duplicate the the 
+study dataset records according to a power-law distribution with 
+scaling parameter 3 up to a varying maximum number of duplicates 
+per source record.
+
+The attributes of the duplicated records were also corrupted according
+to mechanism depending on the type of attribute and with 
+varying probabilities. This corruption aimed to  mimic the real-world data quality issues 
+introduced in data capture processes. The mechanisms are described in 
+Table \@ref(tab:corruption_types).
+
+```{r corruption_types}
+
+field_list <- data.frame(`mechanism` = c("unique entity identifier",
+                                          "first name",
+                                          "family name",
+                                          "day of birth",
+                                          "month of birth",
+                                          "year of birth",
+                                          "place of birth",
+                                          "postcode",
+                                          "gender",
+                                          "occupation"),
+                         `description`= c(0,
+                                                 0,
+                                                 0.7,
+                                                 5.3,
+                                                 0,
+                                                 0,
+                                                 0,
+                                                 0,
+                                                 1,
+                                                 29.6))
+
+knitr::kable(field_list, 
+             align = "lrl",
+             col.names = c("Corruption mechanism", 
+                           "Description", 
+                           "Applied to"),
+             booktabs = TRUE,
+             caption = 'Corruption mechanisms and attribute types to which they were applied.') |> 
   kableExtra::kable_styling(latex_options = "striped", bootstrap_options = "striped")
 
 ```
