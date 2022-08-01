@@ -39,15 +39,15 @@ jobs:
         uses: actions/cache@v2
         with:
           path: _bookdown_files
-          key: bookdown-${{ hashFiles('**/*Rmd') }}
+          key: bookdown-${{ hashFiles('**/*rmd') }}
           restore-keys: bookdown-
 
       - name: Build pdf
-        run: bookdown::render_book("index.Rmd", "bookdown::pdf_document2", quiet = TRUE)
+        run: bookdown::render_book("index.rmd", "bookdown::pdf_document2", quiet = TRUE)
         shell: Rscript {0}
 
       - name: Build html site
-        run: bookdown::render_book("index.Rmd", "bookdown::gitbook", quiet = TRUE)
+        run: bookdown::render_book("index.rmd", "bookdown::gitbook", quiet = TRUE)
         shell: Rscript {0}
 
       - name: Copy figures dir into www root

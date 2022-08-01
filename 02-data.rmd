@@ -1,7 +1,7 @@
 # Data {#data}
 
 There is a lack of publicly available, representative datasets for the 
-evaluation of data linkage processes[@ferrante2012]. "Gold-standard" linked 
+evaluation of data linkage processes [@ferrante2012]. "Gold-standard" linked 
 datasets are few and, due to confidentiality laws, sharing seldom possible.
 
 This study used datasets derived from data sampled from Wikimedia's publicly 

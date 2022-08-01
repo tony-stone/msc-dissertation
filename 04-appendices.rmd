@@ -27,5 +27,7 @@ inclusion of the final approval letter in Figure \@ref(fig:ethicsapprov).
 \newpage
 
 ```{r ethicsapprov, echo = FALSE, fig.cap = "The research ethics approval letter provided for the work outlined in this dissertation, in full compliance with the University of Sheffield Research Ethics Policy.", out.width='100%', fig.align='center'}
+
 knitr::include_graphics("figures/ApprovalLetterCrop.jpg")
+
 ```
