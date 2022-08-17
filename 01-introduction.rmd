@@ -4,20 +4,20 @@
 
 Record linkage or entity resolution is the process of identifying records belonging to the same individual (or entity) from a set or sets of multiple records. In the absence of "good" identifiers (e.g. passport number), other attributes that relate to the entities (e.g name, date of birth) present in the compared records may be used to estimate an overall "match weight" for each pair of compared records. The match weight is based on conditional probabilities of pairs of records truly belonging to the same entity (match) or truly not belonging to the same entity (non-match) given how they agree on the compared attributes. This is known as the Fellegi-Sunter model of probabilistic record linkage.
 
-The pairwise comparison of all records grows in proportion to the square of the number of records, rapidly leading to computational challenges. Additionally, usual methods (Expectation-Maximisation) to estimate the conditional probabilities may not work if the number of true match pairs is too few relative to the total number of pairwise comparisons. A solution to these problems is to use blocking rules such that for each blocking rule only pairs which agree on one or more attributes are compared. This reduces the comparison space.
+The pairwise comparison of all records grows in proportion to the square of the number of records, rapidly leading to computational challenges. Additionally, usual methods (Expectation-Maximisation) to estimate the conditional probabilities may not work if the number of true match pairs is too few relative to the total number of pairwise comparisons. A solution to these problems is to use blocking rules such that for each blocking rule only pairs which agree on one or more attributes are compared. This reduces the comparison space and consequently the computational burden.
 
 Pairs of records may be considered to belong to the same entity if their match weight is above a certain threshold. Alternatively, two thresholds may be chosen:
 
 -   a lower threshold, below which each pair of records is deemed not to belong to the same entity; and
 -   an upper threshold, above which each pair of records is deemed to belong to the same entity.
 
-Records with a match weight between the lower and upper threshold (or a sample thereof) undergo manual review. Choice of threshold(s) may be chosen based on aims of the record linkage process, with consideration of the relative importance of sensitivity and specificity.
+Records with a match weight between the lower and upper threshold (or a sample thereof) undergo manual review. Choice of threshold(s) may be chosen with consideration of the aims of the subsequent analyses of the linked records, particularly the relative importance of sensitivity and specificity.
 
 Frequently it is the case that there are more than two records belonging to the same entity in an entity resolution process. When this is the case a further step is required to identify the set of records belonging to each entity, clustering. Clustering is the process of labeling all records deemed to belong to the same entity with a unique identifier for that entity. The outputs of the Fellegi-Sunter record linkage process is compared pairs of records. It may be the case that a record linkage process involving three records (A,B,C) results in pairs AB and BC being assigned a match weight greater than an identified match weight threshold but pair AC being assigned a match weight lower than this threshold. In such cases transitive closure is often applied. Under transitive closure records A and C are deemed to belong to the same entity also.
 
 ## Graph representation of record linkage outputs
 
-The outputs of a pairwise record linkage process are naturally represented by undirected graphs consisting of a vertex for each record and an edge for each pairwise comparison of records.
+The outputs of a pairwise record linkage process can naturally be represented by undirected graphs consisting of a vertex for each record and an edge for each pairwise comparison of records.
 
 Considering the case with a single match weight threshold, one representation may be a graph which only includes edges representing pairwise comparisons that had a match weight greater than the threshold.
 
@@ -27,9 +27,7 @@ A third representation may include not just the overall match weight of pairwise
 
 ## Graph measures
 
-Say something about how graph measures may be used to identify false positive 
-links...
-
+Previous research has identified that clustered with lowered edge density are more likely to contain false positive matches
 ------------------------------------------------------------------------
 
 You can call your first chapter (and all the others) whatever you wish, but it is usual to start with an introduction to your project and, perhaps, a discussion of some background literature.
