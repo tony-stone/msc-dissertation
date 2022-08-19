@@ -1,33 +1,202 @@
 # Introduction {#intro}
 
+Digitisation and miniaturisation of devices has led to rapid increases in the 
+volume, variety and velocity of data captured every day [@sivarajah2017]. 
+Data are captured by different actors about various entities for varying 
+purposes. To maximise the insight available from these data collections it is 
+frequently beneficial to link data from multiple sources. 
+
 ## Record linkage
 
-Record linkage or entity resolution is the process of identifying records belonging to the same individual (or entity) from a set or sets of multiple records. In the absence of "good" identifiers (e.g. passport number), other attributes that relate to the entities (e.g name, date of birth) present in the compared records may be used to estimate an overall "match weight" for each pair of compared records. The match weight is based on conditional probabilities of pairs of records truly belonging to the same entity (match) or truly not belonging to the same entity (non-match) given how they agree on the compared attributes. This is known as the Fellegi-Sunter model of probabilistic record linkage.
+Record linkage, or entity resolution, is the process of identifying records 
+belonging to the same individual (or entity) from a set or sets of textual
+records. In the absence of "good" unique identifiers other attributes that 
+relate to the entities present in the sets of compared records may be used to 
+evaluate whether a pairs of records belong to the same entity.
 
-The pairwise comparison of all records grows in proportion to the square of the number of records, rapidly leading to computational challenges. Additionally, usual methods (Expectation-Maximisation) to estimate the conditional probabilities may not work if the number of true match pairs is too few relative to the total number of pairwise comparisons. A solution to these problems is to use blocking rules such that for each blocking rule only pairs which agree on one or more attributes are compared. This reduces the comparison space and consequently the computational burden.
+As an example, consider a study investigating the impact of childhood 
+disease on educational attainment. Data on childhood disease is recorded in 
+medical records held by GP practices. Educational attainment data for children 
+in England is collected by the Department for Education. These two 
+separate data collections do not contain a shared unique identifier for 
+children so it is necessary to use other attributes available in both 
+collections to link together records belonging to the same child. Commonly, 
+shared attributes may be names, date of birth and address. Complicating this 
+seemingly straightforward process are the problems that names may be 
+misspelled or shortened (William to Bill); dates of birth may be incorrectly 
+typed or formatted (British versus American format); and, addresses may change 
+over time or a child may be have more than one address if, for example, their 
+parents are separated.
 
-Pairs of records may be considered to belong to the same entity if their match weight is above a certain threshold. Alternatively, two thresholds may be chosen:
+Attributes can be evaluated not simply based on whether records share precisely 
+the same value but by using various string similarity measures, such as edit 
+distance or phonetic similarity. This makes it possible to give greater weight 
+to record pairs that have differing but similar attribute values, such as "Ann" 
+and "Anne", compared to very different values, such as "Ann" and "Rose".
 
--   a lower threshold, below which each pair of records is deemed not to belong to the same entity; and
--   an upper threshold, above which each pair of records is deemed to belong to the same entity.
+Deterministic and probabilistic methods are both commonly used to decide 
+whether or not records belongs to the same entity. In the deterministic 
+(or "rules-based") approach a set of one or more rules is constructed that 
+partitions the set of records into subsets, each of which are considered to 
+belong to the same entity. A "rule" is generally the equality of one or more 
+attributes in the record pairs but may also incorporate thresholds on measures 
+of similarity of attributes.
 
-Records with a match weight between the lower and upper threshold (or a sample thereof) undergo manual review. Choice of threshold(s) may be chosen with consideration of the aims of the subsequent analyses of the linked records, particularly the relative importance of sensitivity and specificity.
+## Probabilistic record linkage
 
-Frequently it is the case that there are more than two records belonging to the same entity in an entity resolution process. When this is the case a further step is required to identify the set of records belonging to each entity, clustering. Clustering is the process of labeling all records deemed to belong to the same entity with a unique identifier for that entity. The outputs of the Fellegi-Sunter record linkage process is compared pairs of records. It may be the case that a record linkage process involving three records (A,B,C) results in pairs AB and BC being assigned a match weight greater than an identified match weight threshold but pair AC being assigned a match weight lower than this threshold. In such cases transitive closure is often applied. Under transitive closure records A and C are deemed to belong to the same entity also.
+Multiple probabilistic record linkage frameworks are described in the 
+literature, including supervised and unsupervised, frequentist and Bayesian 
+methods [@abril2012; @christen2007; @winkler2014; @steorts2016]. Common to all 
+probabilistic record linkage approaches is the estimation of a statistical 
+model to "score" pairs of records or to otherwise classify or cluster records.
+
+This work is confined to the longest established and consistently popular 
+probabilistic approach formalised by @fellegi1969. In its commonly presented 
+form, the aim is to link records belonging to the same individuals appearing in
+two different collections or sets, $A$ and $B$. This can be rephrased as 
+partitioning record pairs in the product space $A \times B$ into two sets: 
+true matches $M$ and true non-matches $U$. Record pairs are evaluated on each 
+of their $n$ shared attributes. At its simplest, each attribute for the $i$th 
+pair of records in $A \times B$ may either agree or disagree, yielding an 
+agreement pattern $\gamma_i \in \Gamma$. Element $\gamma_{ij}$ of the agreement 
+pattern is coded $1$ if the $j$th attribute in the $i$th pair of records match 
+and $0$ otherwise. Hence, in this most simplified case, $\Gamma$ may consist of 
+at most $2^n$ distinct agreement patterns.
+
+Assuming conditional independence amongst compared attributes, conditional 
+probabilities for a pair of records agreeing or disagreeing on each 
+attribute given they truly belong to the same entity (match) or truly do not 
+belong to the same entity (non-match) can be expressed
+
+\begin{equation} 
+  R_i = \frac{P(\gamma_i \mid M)}{P(\gamma_i \mid U)} = 
+  \frac{\prod_j P(\gamma_{ij} \mid M)}{\prod_j P(\gamma_{ij} \mid U)}
+  (\#eq:matchweigth)
+\end{equation}
+
+This ratio is known as the _match weight_ or _match score_ of the $i$th record 
+pair.
+
+In most record linkage situations the true match status of pairs of records is 
+not known. Expectation-Maximisation methods for latent class models, with 
+latent classes corresponding to M (true matches) and U (true non-matches), 
+can be used to estimate the probabilities within the products of the numerator 
+and denominator on right hand side of \@ref(eq:matchweigth) [@winkler2014]. 
+These probabilities are known as $m$- and $u$-probabilities, respectively.
+
+With the addition of information on- or an estimate of- the prior probability 
+that any randomly selected pair of records are a true match, $P(M)$, it is 
+possible to calculate from $R_i$ the (posterior) odds that a pair of 
+records with an agreement pattern $\gamma_i$ are a true match using Bayes' 
+Theorem. Since
+
+\begin{equation} 
+  P(M \mid \gamma_i) = \frac{P(\gamma_i \mid S) P(S)}{P(\gamma_i)}
+  (\#eq:matchbayes)
+\end{equation}
+
+where $S$ is used to indicate either $M$ or $U$. Thus
+
+\begin{equation} 
+  \frac{P(M \mid \gamma_i)}{1 - P(M \mid \gamma_i)}
+  = \frac{P(M \mid \gamma_i)}{P(U \mid \gamma_i)}
+  = \frac{P(\gamma_i \mid M) P(M)}{P(\gamma_i \mid U) P(U)}
+  = R_i \frac{P(M)}{P(U)}
+  = R_i \frac{P(M)}{1 - P(M)}
+  (\#eq:matchodds)
+\end{equation}
+
+and it is then trivial to recover the posterior probability. Expressing this as 
+a probability has the advantage of confining the value to the range $[0, 1]$ 
+which will be useful later.
+
+### Blocking
+
+The pairwise comparison of records requires $|A \times B|$ comparisons of each 
+of the $n$ attributes. This rapidly leading to computational challenges with 
+increasing $|A|$ and $|B|$. Additionally, usual Expectation-Maximisation 
+methods to estimate the conditional probabilities may result in latent classes 
+corresponding to $M$ and $U$ if the number of true match pairs is too few 
+relative to the total number of pairwise comparisons [@yancey2004].
+
+A solution to these problems is to use blocking rules such that for each 
+blocking rule only pairs which agree on one or more attributes are compared. 
+This reduces the comparison space and consequently the computational burden.
+
+### Linkage threshold
+
+Pairs of records may be considered to belong to the same entity if their 
+_match weight_ is above a certain threshold. Alternatively, two thresholds may 
+be chosen:
+
+-   a lower threshold, below which each pair of records is deemed not to belong 
+to the same entity; and
+-   an upper threshold, above which each pair of records is deemed to belong to 
+the same entity.
+
+Records with a match weight between the lower and upper threshold (or a sample 
+thereof) undergo manual review. Choice of threshold(s) may be chosen with 
+consideration of the aims of the subsequent analyses of the linked records, 
+particularly the relative importance of sensitivity and specificity.
+
+### Clustering
+
+Frequently it is the case that there are more than two records belonging to the 
+same entity in an entity resolution process. When this is the case a further 
+step is required to identify the set of records belonging to each entity. 
+Clustering is the process of labeling all records deemed to belong to the same 
+entity with a unique identifier for that entity. The output of the 
+Fellegi-Sunter record linkage process is a set of compared pairs of records. It
+may be the case that a record linkage process involving three records (A,B,C) 
+results in pairs AB and BC being assigned a match weight greater than an 
+identified match weight threshold but pair AC being assigned a match weight 
+lower than this threshold. In such cases transitive closure is often applied. 
+Under transitive closure records A and C are deemed to belong to the same 
+entity also.
 
 ## Graph representation of record linkage outputs
 
-The outputs of a pairwise record linkage process can naturally be represented by undirected graphs consisting of a vertex for each record and an edge for each pairwise comparison of records.
+The outputs of a pairwise record linkage process can naturally be represented 
+by undirected graphs consisting of a vertex for each record and an edge for 
+each pairwise comparison of records.
 
-Considering the case with a single match weight threshold, one representation may be a graph which only includes edges representing pairwise comparisons that had a match weight greater than the threshold.
+Considering the case with a single match weight threshold, one representation 
+may be a graph which only includes edges representing pairwise comparisons that 
+had a match weight greater than the threshold.
 
-A second representation may include all edges (or only those above some other threshold) with their match weight (suitably transformed) to be represented by the weight of the edge.
+A second representation may include all compared edges (or only those above 
+some other threshold) with their match weight (suitably transformed) as the 
+weight of the edge. If no blocking is used, this graph will be complete but 
+otherwise this will not be the case.
 
-A third representation may include not just the overall match weight of pairwise record comparisons (edges) but also, for each compared attribute, the contributing components to the overall match weight as additional edge attributes.
+A third representation may include not just the overall match weight of 
+pairwise record comparisons (edges) but also, for each compared attribute, 
+the contributing components to the overall match weight as additional edge 
+attributes.
 
 ## Graph measures
 
-Previous research has identified that clustered with lowered edge density are more likely to contain false positive matches
+Previous research has identified that clustered with lowered edge density are 
+more likely to contain false positive matches
+
+
+
+
+
+
+
+
+
+
+One of the most difficult problems with record linkage and the evaluation of 
+record linkage outputs is that is rarely the case that the ground truth is 
+known, even amongst a relatively small representative sample.
+
+
+
+
+
+
 ------------------------------------------------------------------------
 
 You can call your first chapter (and all the others) whatever you wish, but it is usual to start with an introduction to your project and, perhaps, a discussion of some background literature.
