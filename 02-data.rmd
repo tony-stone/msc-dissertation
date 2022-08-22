@@ -48,13 +48,10 @@ field_list <- data.frame(`field name` = c("unique entity identifier",
                                                  1,
                                                  29.6),
                          notes = c("Assigned by Wikidata",
-                                   "",
-                                   "",
-                                   "",
+                                   rep("", 5),
                                    "Randomly assigned if not present in Wikidata source",
                                    "Valid UK postcodes assigned based on, sometimes randomly assigned, place of birth",
-                                   "",
-                                   ""))
+                                   rep("", 2)))
 
 knitr::kable(field_list, 
              align = "lrl",
