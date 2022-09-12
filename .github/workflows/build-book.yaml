@@ -7,7 +7,7 @@ name: Build and deploy
 jobs:
   build-and-deploy:
     concurrency: cd-${{ github.ref }}
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
@@ -34,6 +34,10 @@ jobs:
 
       - name: Setup and cache renv
         uses: r-lib/actions/setup-renv@v2
+
+      - name: Install phantomjs
+        run: webshot::install_phantomjs()
+        shell: Rscript {0}
 
       - name: Cache bookdown build
         uses: actions/cache@v2

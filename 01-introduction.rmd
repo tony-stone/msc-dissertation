@@ -15,6 +15,18 @@ Records with a match weight between the lower and upper threshold (or a sample t
 
 Frequently it is the case that there are more than two records belonging to the same entity in an entity resolution process. When this is the case a further step is required to identify the set of records belonging to each entity, clustering. Clustering is the process of labeling all records deemed to belong to the same entity with a unique identifier for that entity. The outputs of the Fellegi-Sunter record linkage process is compared pairs of records. It may be the case that a record linkage process involving three records (A,B,C) results in pairs AB and BC being assigned a match weight greater than an identified match weight threshold but pair AC being assigned a match weight lower than this threshold. In such cases transitive closure is often applied. Under transitive closure records A and C are deemed to belong to the same entity also.
 
+```{r transitive-closure, fig.cap = "An illustration of transitive closure. The solid lines indicate identified pairings whereas the dashed line indicates the edge due to transitive closure.", cache=TRUE}
+DiagrammeR::grViz("graph G {
+layout=neato
+A -- B;
+B -- C;
+edge [style=dashed];
+A -- C [label = \"??\"];
+}",
+height = 200)
+
+```
+
 ## Graph representation of record linkage outputs
 
 The outputs of a pairwise record linkage process are naturally represented by undirected graphs consisting of a vertex for each record and an edge for each pairwise comparison of records.
