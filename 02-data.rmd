@@ -8,15 +8,14 @@ datasets are few and, due to confidentiality laws, sharing seldom possible.
 
 This study used datasets derived from data sampled from Wikimedia's publicly 
 available Wikidata database [@wikidata]. A sample of records of Wikidata 
-entities classified as human was extracted and processed by the UK Ministry of 
-Justice's data linkage team for the purpose of creating one or more linkage 
-evaluation dataset(s) [@splink_syn2021]. This processing involved the 
-duplication and introduction of typographical and other errors among duplicated 
-records, emulating the errors typically found in administrative data sources.
+entities classified as human was extracted and processed using scripts made 
+available by the UK Ministry of Justice's data linkage team [@splink_syn2021]. 
+The extracted records comprised data belonging to individuals with a date of 
+death between 1930 and 2000 (inclusive) and having been recorded as holding 
+UK citizenship at any point in time.
 
-One such linkage evaluation dataset was made available to the author of this 
-dissertation by the Ministry of Justice data linkage team. Research ethics 
-approval for the use of this data is discussed in Appendix \@ref(ethics).
+Research ethics approval for the use of this data is discussed in Appendix 
+\@ref(ethics).
 
 ## Processed datasets
 
@@ -78,8 +77,8 @@ study dataset records according to a power-law distribution with
 scaling parameter 3 up to a varying maximum number of duplicates 
 per source record.
 
-The attributes of the duplicated records were also corrupted according
-to mechanism depending on the type of attribute and with 
+The attributes of the duplicated records were also corrupted using
+mechanisms dependent on the type of attribute and with 
 varying probabilities. This corruption aimed to  mimic the real-world data quality issues 
 introduced in data capture processes. The mechanisms are described in 
 Table \@ref(tab:corruption_types).
