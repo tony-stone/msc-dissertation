@@ -11,17 +11,18 @@ available Wikidata database [@wikidata]. A sample of records of Wikidata
 entities classified as human was extracted and processed using scripts made 
 available by the UK Ministry of Justice's data linkage team [@splink_syn2021]. 
 The extracted records comprised data belonging to individuals with a date of 
-death between 1930 and 2000 (inclusive) and having been recorded as holding 
-UK citizenship at any point in time.
+death between 1953 and 2000 (inclusive).
 
 Research ethics approval for the use of this data is discussed in Appendix 
 \@ref(ethics).
 
 ## Processed datasets
 
-The supplied linkage evaluation dataset was cleaned of corrupted records 
-leaving a study dataset comprised of 113,232 records representing distinct 
-individuals. The processed dataset consisted of 8 fields, detailed 
+The supplied linkage evaluation dataset was processed to retain only 
+individuals recorded as holding UK citizenship at any point in time 
+and having at least one recorded given name and family name. The 
+dataset comprised 20,332 records representing distinct individuals. 
+The processed dataset consisted of 8 fields, detailed 
 in Table \@ref(tab:fieldlist).
 
 ```{r fieldlist}
