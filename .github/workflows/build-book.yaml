@@ -46,13 +46,13 @@ jobs:
           key: bookdown-${{ hashFiles('**/*rmd') }}
           restore-keys: bookdown-
 
-      - name: Build pdf
-        run: bookdown::render_book("index.rmd", "bookdown::pdf_document2", quiet = TRUE)
-        shell: Rscript {0}
-
       - name: Build html site
         run: bookdown::render_book("index.rmd", "bookdown::gitbook", quiet = TRUE)
         shell: Rscript {0}
+
+      # - name: Build pdf
+      #   run: bookdown::render_book("index.rmd", "bookdown::pdf_document2", quiet = TRUE)
+      #   shell: Rscript {0}
 
       - name: Copy figures dir into www root
         run: cp -r ${{ github.workspace }}/figures ${{ github.workspace }}/_book-html-pdf-output
