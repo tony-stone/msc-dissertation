@@ -77,7 +77,8 @@ per source record.
 
 The attributes of the duplicated records were also corrupted using
 mechanisms dependent on the type of attribute and with 
-varying probabilities. This corruption aimed to  mimic the real-world data quality issues 
+varying probabilities based on those seen in real world datasets [@tromp2011]. 
+This corruption aimed to  mimic the real-world data quality issues 
 introduced in data capture processes. The mechanisms are described in 
 Table \@ref(tab:corruption_types).
 
