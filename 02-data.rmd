@@ -77,43 +77,34 @@ per source record.
 
 The attributes of the duplicated records were also corrupted using
 mechanisms dependent on the type of attribute and with 
-varying probabilities based on those seen in real world datasets [@tromp2011]. 
+varying probabilities based on those seen in real world datasets [@tromp2011; @hong2013]. 
 This corruption aimed to  mimic the real-world data quality issues 
 introduced in data capture processes. The mechanisms are described in 
 Table \@ref(tab:corruption_types).
 
 ```{r corruption_types}
 
-field_list <- data.frame(mechanism = c("unique entity identifier",
-                                       "first name",
-                                       "family name",
-                                       "day of birth",
-                                       "month of birth",
-                                       "year of birth",
-                                       "place of birth",
-                                       "postcode",
-                                       "gender",
-                                       "occupation"),
-                         description= c(0,
-                                        0,
-                                        0.7,
-                                        5.3,
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        1,
-                                        29.6),
-                         applied = rep("", 10)
+field_list <- data.frame(field = c("first name",
+                                   "family name",
+                                   "date of birth",
+                                   "gender"),
+                         mechanism = c("QWERTY typographical error",
+                                       "QWERTY typographical error",
+                                       "Number pad typographical error",
+                                       "Swapped"),
+                         base_probability = c(5.0,
+                                              5.0,
+                                              1.0,
+                                              0.5)
 )
 
 knitr::kable(field_list, 
              align = "lrl",
-             col.names = c("Corruption mechanism", 
-                           "Description", 
-                           "Applied to"),
+             col.names = c("Attribute", 
+                           "corruption mechanism", 
+                           "Base case probability of corruption (%)"),
              booktabs = TRUE,
-             caption = 'Corruption mechanisms and attribute types to which they were applied.') |> 
+             caption = 'Attributes, their corruption mechanism and base case probability of corruption.') |> 
   kableExtra::kable_styling(latex_options = "striped", bootstrap_options = "striped")
 
 ```
