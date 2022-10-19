@@ -21,7 +21,7 @@ Research ethics approval for the use of this data is discussed in Appendix
 The supplied linkage evaluation dataset was processed to retain only 
 individuals recorded as holding UK citizenship at any point in time 
 and having at least one recorded given name and family name. The 
-dataset comprised 20,332 records representing distinct individuals. 
+dataset comprised 20,304 records representing distinct individuals. 
 The processed dataset consisted of 8 fields, detailed 
 in Table \@ref(tab:fieldlist).
 
