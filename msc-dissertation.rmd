@@ -1,3 +1,22 @@
+--- 
+site: bookdown::bookdown_site
+documentclass: book
+fontsize: 12pt
+classoption: twoside
+papersize: a4
+bibliography: [references.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+---
+
+# Acknowledgements {-}
+
+Placeholder
+
+
+
+<!--chapter:end:index.rmd-->
+
 # Introduction {#intro}
 
 Digitisation and miniaturisation of devices has led to rapid increases in the 
@@ -204,3 +223,85 @@ more likely to contain false positive matches
 One of the most difficult problems with record linkage and the evaluation of 
 record linkage outputs is that is rarely the case that the ground truth is 
 known, even amongst a relatively small representative sample.
+
+<!--chapter:end:01-introduction.rmd-->
+
+
+# Data {#data}
+
+Placeholder
+
+
+## Source of data
+## Processed datasets
+## Test datasets
+
+<!--chapter:end:02-data.rmd-->
+
+
+# Some reminders {#reminders}
+
+Placeholder
+
+
+## A key theorem 
+## Generating and importing figures 
+
+<!--chapter:end:03-Xreminders.rmd-->
+
+
+# (APPENDIX) Appendix {-} 
+
+Placeholder
+
+
+## Functions of random variables
+## Schwarz Inequality
+## Proof 1
+
+<!--chapter:end:04-appendices.rmd-->
+
+# References {-}
+
+
+<!--chapter:end:05-references.Rmd-->
+
+
+# Acknowledgements {-}
+
+Placeholder
+
+
+## Record linkage
+## Probabilistic record linkage
+### Blocking
+### Linkage threshold
+### Clustering
+## Graph representation of record linkage outputs
+## Graph measures
+## Source of data
+## Processed datasets
+## Test datasets
+## A key theorem 
+## Generating and importing figures 
+## Functions of random variables
+## Schwarz Inequality
+## Proof 1
+## Record linkage
+## Probabilistic record linkage
+### Blocking
+### Linkage threshold
+### Clustering
+## Graph representation of record linkage outputs
+## Graph measures
+## Source of data
+## Processed datasets
+## Test datasets
+## A key theorem 
+## Generating and importing figures 
+## Functions of random variables
+## Schwarz Inequality
+## Proof 1
+
+<!--chapter:end:msc-dissertation.rmd-->
+
