@@ -1,0 +1,66 @@
+# Some reminders {#reminders}
+
+You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). 
+
+For all the basics of typesetting, that you are likely to need in your dissertation, please use the handouts on \LaTeX\ that you were given earlier in the MSc or consult or the single document on \LaTeX\ provided on the dissertation Blackboard page.  Below we provide further snippets of code, inspired by the Wikipedia entry on L'evy's continuity theorem, to remind you of some key typesetting concepts that you should be aware of.
+
+Before we do that, however, just a quick note on commenting on your writing. Note that we have defined some extra \LaTeX\ commands within this template to help when discussing your writing with others. You are not required to use these commands, but we hope that you (and the staff working with you) might find them useful. 
+\supcomment{This is a comment on the student's work by the supervisor.}
+\DSWcomment{This is a comment on the student's work by the DSW.}
+\studentcomment{This is a query related to the above comment.}
+
+## A key theorem 
+
+Later we will find it useful to remember L'evy's continuity theorem (Theorem \@ref(thm:levy)), which we do not prove since it is fairly well known, but complete proofs are available in Section 18.1 of @Williams and Theorems 14.15 and 18.21 of @Fristedt.
+
+```{theorem, label = "levy", echo = TRUE}
+Suppose we have
+
+- a sequence of random variables $\{X_n\}_{n=1}^\infty$, not necessarily sharing a common probability space,
+- the sequence of corresponding characteristic functions $\{\varphi_n\}_{n=1}^\infty$, which by definition are:
+$$
+\varphi_n(t) = \mathbb{E}[e^{itX_n}] \quad \forall t\in\mathbb{R},\ \forall n\in\mathbb{N},
+$$
+where $\mathbb{E}$ is the expected value operator.
+
+If the sequence of characteristic functions converges pointwise to some function~$\varphi$ where
+$$\varphi_n(t)\to\varphi(t) \quad \forall t\in\mathbb{R},$$
+then the following statements become equivalent:
+
+- $X_n$ converges in distribution to some random variable $X$:
+$$X_n\ \xrightarrow{\mathcal D}\ X,$$
+i.e.\ the cumulative distribution functions corresponding to random variables converge at every continuity point of the c.d.f.\ of $X$;
+- $\{X_n\}_{n=1}^\infty$is tight: 
+$$\lim_{x\to\infty}\left( \sup_n P\big[\, |X_n|>x \,\big]\right) = 0;$$
+- $\varphi(t)$ is a characteristic function of some random variable $X$;
+- $\varphi(t)$ is a continuous function of $t$;
+- $\varphi(t)$ is continuous at $t=0$.
+
+```
+ 
+## Generating and importing figures 
+
+You will most likely generate figures within your .rmd documents, like so:
+
+```{r nice-fig, fig.cap='Here is horrible figure! Note the variable names in the axis labels. You must not do this in your dissertation. Pleases also remember the Caption Test from the EDA with R notes.', out.width='80%', fig.asp=.75, fig.align='center'}
+par(mar = c(4, 4, .1, .1))
+plot(pressure, type = 'b', pch = 19)
+```
+
+Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab). 
+
+```{r nice-tab, tidy=FALSE}
+knitr::kable(
+  head(datasets::iris, 5), caption = 'Here is a table. Note the variable names in the column headings. You must not do this in your dissertation. Please also remember the Caption Test from the EDA with R lelcture notes; it is as relevant for tables as for plots.', 
+  format = "latex",
+  booktabs = TRUE
+)
+```
+
+Here is an example of importing a figure, which is done inside a code chunk. Use the command `knitr::include_graphics()` to import the figure, but use code chunk options as normal for the caption, sizing etc. You can label and refer to the figure as shown previously: see Figure \@ref(fig:Rwalk).
+
+```{r Rwalk, echo = FALSE, fig.cap = "Here is another horrible figure! Again, note the variable names in the axis labels. You must not do this in your dissertation. ", out.width='80%', fig.align='center'}
+knitr::include_graphics("figures/Rwalk.pdf")
+```
+
+

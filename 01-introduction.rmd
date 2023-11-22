@@ -14,19 +14,19 @@ records. In the absence of "good" unique identifiers other attributes that
 relate to the entities present in the sets of compared records may be used to 
 evaluate whether a records belong to the same entity.
 
-As an example, consider a study investigating the impact of childhood 
-disease on educational attainment. Data on childhood disease is recorded in 
-medical records held by GP practices. Educational attainment data for children 
-in England is collected by the Department for Education. These two 
-separate data collections do not contain a shared unique identifier for 
-children so it is necessary to use other attributes available in both 
-collections to link together records belonging to the same child. Commonly, 
+As an example, consider a study investigating the impact of a childhood 
+disease on school-level academic attainment. Data on the childhood disease of 
+interest may be recorded in medical records held by GP practices. Educational 
+attainment data for most children in England is collated by the Department for 
+Education. These separate data collections do not contain a shared unique 
+identifier for children so it is necessary to use other attributes available in 
+both collections to link together records belonging to the same child. Commonly, 
 shared attributes may be names, date of birth and address. Complicating this 
 seemingly straightforward process are the problems that names may be 
 misspelled or shortened (William to Bill); dates of birth may be incorrectly 
-typed or formatted (British versus American format); and, addresses may change 
-over time or a child may be have more than one address if, for example, their 
-parents are separated.
+typed or inconsistently formatted (British versus American format); and, 
+addresses may change over time or a child may be have more than one address if, 
+for example, their parents live apart.
 
 Attributes can be evaluated not simply based on whether records share precisely 
 the same value but by using "similarity" measures such as, text edit distance 
@@ -38,10 +38,10 @@ very different values, such as "Ann" and "Rose".
 Deterministic and probabilistic methods are both commonly used to decide 
 whether or not records belongs to the same entity. In the deterministic 
 (or "rules-based") approach a set of one or more rules is constructed that 
-partitions the set of records into subsets, each of which are considered to 
-belong to the same entity. A "rule" is generally the equality of one or more 
-attributes in the record pairs but may also incorporate thresholds on measures 
-of similarity of attributes.
+partitions the set of records into disjoint subsets, each of which are 
+considered to belong to the same entity. A "rule" is generally the equality of 
+one or more attributes in the record pairs but may also incorporate thresholds 
+on measures of similarity of attributes.
 
 ## Probabilistic record linkage
 
@@ -49,7 +49,7 @@ Multiple probabilistic record linkage frameworks are described in the
 literature, including supervised and unsupervised, frequentist and Bayesian 
 methods [@abril2012; @christen2007; @winkler2014; @steorts2016]. Common to all 
 probabilistic record linkage approaches is the estimation of a statistical 
-model to "score" pairs of records or to otherwise classify or cluster records.
+model, to "score" pairs of records or to otherwise classify or cluster records.
 
 This work is confined to the longest established and consistently popular 
 probabilistic approach formalised by @fellegi1969. In its commonly presented 
@@ -75,12 +75,12 @@ belong to the same entity (non-match) can be expressed
   (\#eq:matchweigth)
 \end{equation}
 
-This ratio is known as the _match weight_ or _match score_ of the $i$th record 
+This ratio is known as the _match score_ (sometimes _match weight_) of the $i$th record 
 pair.
 
 In most record linkage situations the true match status of pairs of records is 
 not known. Expectation-Maximisation methods for latent class models, with 
-latent classes corresponding to M (true matches) and U (true non-matches), 
+latent classes corresponding to $M$ (true matches) and $U$ (true non-matches), 
 can be used to estimate the probabilities within the products of the numerator 
 and denominator on right hand side of \@ref(eq:matchweigth) [@winkler2014]. 
 These probabilities are known as $m$- and $u$-probabilities, respectively.
@@ -114,9 +114,9 @@ which will be useful later.
 ### Blocking
 
 The pairwise comparison of records requires $|A \times B|$ comparisons of each 
-of the $n$ attributes. This rapidly leading to computational challenges with 
+of the $n$ attributes. This rapidly leads to computational challenges with 
 increasing $|A|$ and $|B|$. Additionally, usual Expectation-Maximisation 
-methods to estimate the conditional probabilities may result in latent classes 
+methods to estimate the conditional probabilities may fail to align to  latent classes 
 corresponding to $M$ and $U$ if the number of true match pairs is too few 
 relative to the total number of pairwise comparisons [@yancey2004].
 
@@ -127,7 +127,7 @@ This reduces the comparison space and consequently the computational burden.
 ### Linkage threshold
 
 Pairs of records may be considered to belong to the same entity if their 
-_match weight_ is above a certain threshold. Alternatively, two thresholds may 
+_match score_ is above a certain threshold. Alternatively, two thresholds may 
 be chosen:
 
 -   a lower threshold, below which each pair of records is deemed not to belong 
@@ -135,7 +135,7 @@ to the same entity; and
 -   an upper threshold, above which each pair of records is deemed to belong to 
 the same entity.
 
-Records with a match weight between the lower and upper threshold (or a sample 
+Records with a match score between the lower and upper threshold (or a sample 
 thereof) undergo manual review. Choice of threshold(s) may be chosen with 
 consideration of the aims of the subsequent analyses of the linked records, 
 particularly the relative importance of sensitivity and specificity.
@@ -149,33 +149,32 @@ Clustering is the process of labelling all records deemed to belong to the same
 entity with a unique identifier for that entity. The output of the 
 Fellegi-Sunter record linkage process is a set of compared pairs of records. It
 may be the case that a record linkage process involving three records (A,B,C) 
-results in pairs AB and BC being assigned a match weight greater than an 
-identified match weight threshold but pair AC being assigned a match weight 
+results in pairs AB and BC being assigned a match score greater than an 
+identified match score threshold but pair AC being assigned a match score 
 lower than this threshold. In such cases transitive closure is often applied. 
-Under transitive closure records A and C are deemed to belong to the same 
-entity also.
+Under transitive closure records A and C are also deemed to belong to the same 
+entity, see also Figure \@ref(fig:transitive-closure).
 
 ## Graph representation of record linkage outputs
 
 The outputs of a pairwise record linkage process can naturally be represented 
-by undirected graphs consisting of a vertex for each record and an edge for 
-each pairwise comparison of records.
+by undirected graphs with a vertex representing each record and an edge 
+representing each a comparison of records.
 
-Considering the case with a single match weight threshold, one representation 
+Considering the case with a single match score threshold, one representation 
 may be a graph which only includes edges representing pairwise comparisons that 
-had a match weight greater than the threshold.
+had a match score greater than the threshold.
 
-A second representation may include all compared edges (or only those above 
-some other threshold) with their match weight (suitably transformed) as the 
-weight of the edge. If no blocking is used, this graph will be complete but 
-otherwise this will not be the case.
+A second representation may include all compared edges with their match score 
+(suitably transformed) as the weight of the edge. If no blocking is used, this 
+graph will be complete but otherwise this will not be the case.
 
-A third representation may include not just the overall match weight of 
+A third representation may include not just the overall match score of 
 pairwise record comparisons (edges) but also, for each compared attribute, 
-the contributing components to the overall match weight as additional edge 
+the contributing component to the overall match score as additional edge 
 attributes.
 
-```{r transitive-closure, fig.cap = "An illustration of transitive closure. The solid lines indicate identified pairings whereas the dashed line indicates the edge due to transitive closure.", cache=TRUE}
+```{r transitive-closure, fig.cap = "An illustration of transitive closure. The solid lines indicate pairwise comparisons with a match score above a chosen threshold, whereas the dashed line indicates the absence of a pairwise comparisons with a match score above a chosen threshold but nonetheless \"linked\" due to transitive closure.", cache=TRUE}
 DiagrammeR::grViz("graph G {
 layout=neato
 A -- B;
@@ -183,7 +182,12 @@ B -- C;
 edge [style=dashed];
 A -- C [label = \"??\"];
 }",
-height = 200)
+height = 200) |> 
+  DiagrammeRsvg::export_svg() |> 
+  charToRaw() |> 
+  rsvg::rsvg_pdf("figures/transitive_closure_graph.pdf")
+
+knitr::include_graphics("figures/transitive_closure_graph.pdf")
 
 ```
 

@@ -1,0 +1,31 @@
+# Methods {#methods}
+
+The thrust of the work herein described is to evaluate the use of graph measures 
+for identifying clusters of records containing false positive links within the 
+outputs of a commonly used record linkage / de-duplication process.
+
+## Clustering
+
+De-duplication process outputs must be clustered and, for this, one or more 
+linkage thresholds must be chosen. Whilst in a normal record linkage 
+process the true match status is not known (or known only for a small sample of
+records), the true match status (or "ground truth") is known for all records in
+the de-duplication datasets. Thus, for each de-duplication dataset, a single 
+linkage threshold was chosen such that compared pairs of records with a match 
+score greater than the threshold were considered as linkage matches, otherwise 
+pairs of records were not considered to be linkage matches.
+
+The linkage threshold chosen for each de-duplication datasets was that which 
+maximised the F-measure for that dataset. The F-measure is the harmonic mean of 
+the recall (true matches divided by the sum of the true matches and false 
+non-matches) and precision (true matches divided by the sum of the true matches 
+and false matches).
+
+Records were subsequently clustered into entities based on linkage matches.
+
+## Graph measures
+
+[@randall2014]
+status of a  
+first step is to chose a match score threshold 
+The widely used transitive closure method, see Chapter \@ref(intro), was employed.

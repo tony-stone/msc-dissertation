@@ -6,62 +6,53 @@ There is a lack of publicly available, representative datasets for the
 evaluation of data linkage processes [@ferrante2012]. "Gold-standard" linked 
 datasets are few and, due to confidentiality laws, sharing seldom possible.
 
-This study used datasets derived from data sampled from Wikimedia's publicly 
+This study used a dataset derived from data extracted from Wikimedia's publicly 
 available Wikidata database [@wikidata]. A sample of records of Wikidata 
 entities classified as human was extracted and processed using scripts made 
 available by the UK Ministry of Justice's data linkage team [@splink_syn2021]. 
-The extracted records comprised data belonging to individuals with a date of 
-death between 1953 and 2000 (inclusive).
 
 Research ethics approval for the use of this data is discussed in Appendix 
 \@ref(ethics).
 
-## Processed datasets
+## Extracted Wikidata dataset
 
-The supplied linkage evaluation dataset was processed to retain only 
-individuals recorded as holding UK citizenship at any point in time 
-and having at least one recorded given name and family name. The 
-dataset comprised 20,304 records representing distinct individuals. 
-The processed dataset consisted of 8 fields, detailed 
-in Table \@ref(tab:fieldlist).
+The records extracted from Wikidata comprised data belonging to individuals 
+with a date of death between the years 1953 and 2000 (inclusive). Only records 
+with at least one entry for each of:
 
-```{r fieldlist}
++ given name
++ family name
++ date of birth
+
+and a single entry for gender (either male or female^[Only binary genders were 
+retained due to the inconsistent recording of non-binary genders in Wikidata.])
+were retained. 
+
+This dataset comprised 311,915 records of 5 fields with no missing values, 
+detailed in Table \@ref(tab:fieldlist).
+
+```{r fieldlist, results='asis'}
 
 field_list <- data.frame(`field name` = c("unique entity identifier",
-                                          "first name",
+                                          "given name",
                                           "family name",
-                                          "day of birth",
-                                          "month of birth",
-                                          "year of birth",
-                                          "place of birth",
-                                          "postcode",
-                                          "gender",
-                                          "occupation"),
-                         `missing values (%)`= c(0,
-                                                 0,
-                                                 0.7,
-                                                 5.3,
-                                                 0,
-                                                 0,
-                                                 0,
-                                                 0,
-                                                 1,
-                                                 29.6),
+                                          "date of birth",
+                                          "gender"),
+                         `missing values (%)`= rep(0, 5),
                          notes = c("Assigned by Wikidata",
-                                   rep("", 5),
-                                   "Randomly assigned if not present in Wikidata source",
-                                   "Valid UK postcodes assigned based on, sometimes randomly assigned, place of birth",
-                                   rep("", 2)))
+                                   rep("One or more value present", 3),
+                                   "'male' or 'female' only"))
 
-knitr::kable(field_list, 
+knitr::kable(field_list,
              align = "lrl",
-             col.names = c("field name", 
-                           "missing values (%)", 
+             format = "latex",
+             col.names = c("field name",
+                           "missing values (%)",
                            "notes"),
              digits = 1,
              booktabs = TRUE,
-             caption = 'List of fields and percentage of missing values in study dataset.') |> 
-  kableExtra::kable_styling(latex_options = "striped", bootstrap_options = "striped")
+             caption = 'List of fields and percentage of missing values in study dataset.') |>
+  kableExtra::kable_styling(latex_options = "striped")
 
 ```
 
@@ -70,19 +61,31 @@ knitr::kable(field_list,
 Many man-made and natural phenomena are distributed according to a 
 power-law distribution, this includes frequency of patient attendance 
 at emergency departments and other out-of-hours care facilities 
-[@burton2018; @burton2022]. We therefore chose to duplicate the the 
-study dataset records according to a power-law distribution with 
-scaling parameter 3 up to a varying maximum number of duplicates 
-per source record.
+[@burton2018; @burton2022]. We therefore chose to duplicate the 
+study dataset records probabilistically according to a power-law distribution 
+with scaling parameter 3 up to a varying maximum number of duplicates per 
+source record. To investigate robustness to number of duplicates, maximum 
+duplicates were set to 49 and 99.
 
-The attributes of the duplicated records were also corrupted using
-mechanisms dependent on the type of attribute and with 
-varying probabilities based on those seen in real world datasets [@tromp2011; @hong2013]. 
-This corruption aimed to  mimic the real-world data quality issues 
-introduced in data capture processes. The mechanisms are described in 
-Table \@ref(tab:corruption_types).
+The attributes of the duplicated records were corrupted by a mechanism 
+dependent on the type of attribute and with probability based on that seen in 
+real world datasets [@tromp2011; @hong2013]. The mechanisms are described in 
+Table \@ref(tab:corruption-types). To investigate robustness to level of 
+corruption, datasets were created with multipliers of the base case 
+corruption probabilities of $\{\frac12, 1, 2, 5\}$. 
 
-```{r corruption_types}
+In each case a deterministically uncorrupted record was retained in addition 
+to the possibly corrupted duplicate records.
+
+To produce robust overall results, five sets of duplicated records were produced for 
+each configuration (maximum number of duplicated records and multiplier of 
+baseline corruption probabilities). Thus $2 \times 4 \times 5 = 40$ test 
+datasets were created. Those datasets with a maximum of 49 duplicate records 
+had a total record count of approximately 1.25 million; and, those with a 
+maximum of 99 duplicate records had a total record count of approximately 
+2.34 million.
+
+```{r corruption-types, results='asis'}
 
 field_list <- data.frame(field = c("first name",
                                    "family name",
@@ -98,13 +101,63 @@ field_list <- data.frame(field = c("first name",
                                               0.5)
 )
 
-knitr::kable(field_list, 
+knitr::kable(field_list,
              align = "lrl",
-             col.names = c("Attribute", 
-                           "corruption mechanism", 
+             format = "latex",
+             col.names = c("Attribute",
+                           "corruption mechanism",
                            "Base case probability of corruption (%)"),
              booktabs = TRUE,
-             caption = 'Attributes, their corruption mechanism and base case probability of corruption.') |> 
-  kableExtra::kable_styling(latex_options = "striped", bootstrap_options = "striped")
+             caption = 'Attributes, their corruption mechanism and base case probability of corruption. QWERTY = QWERTY (Latin-script alphabet) keyboard layout.') |>
+  kableExtra::kable_styling(latex_options = "striped")
 
 ```
+
+## Creation of de-duplication datasets
+
+Test datasets were processed using the Splink de-duplication 
+and record linkage software package [@splink2022]. Configuration of the 
+de-duplication process was identical for all dataset.
+
+### Blocking
+
+A pair of records were only compared if they satisfied the logic of one or more 
+of the following blocking rules:
+
++ First 2 characters of given name match AND (entire) family name matches
++ First 2 characters of family name match AND (entire) given name matches
++ Date of birth matches AND first 2 characters of given name match
++ Date of birth matches AND first 2 characters of family name match.
+
+These blocking rules resulted in 37-49 million pairwise comparisons for the 
+49 maximum duplicate test datasets; and, 132-177 million pairwise comparisons 
+for the 99 maximum duplicate test datasets.
+
+### Comparison of attributes
+
+The following attributes were compared using a binary (equality/inequality) 
+metric:
+
++ date of birth - day component
++ date of birth - month component
++ date of birth - year component
++ gender.
+
+Comparison of names (given and family, separately) took one of four levels: 
+
++ exact equality
++ string similarity (Jaro-Winkler) greater or equal to 0.9 and less than 1
++ string similarity greater or equal to 0.7 and less than 0.9
++ string similarity less than 0.7.
+
+No consideration of how to treat incomparable values was required since there 
+were no missing values in the data.
+
+## De-duplication datasets
+
+The output of each de-duplication process was a dataset with one record per 
+pairwise comparison and fields indicating the:
+
++ total match score of the pair of compared records
++ the relative contribution to the match score from each compared attribute
++ the true match status of the compared records.

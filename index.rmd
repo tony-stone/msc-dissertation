@@ -1,9 +1,16 @@
 --- 
 site: bookdown::bookdown_site
+output:
+  bookdown::pdf_document2:
+    keep_tex: true
+    includes:
+      before_body: frontpage.tex
+      in_header: preamble.tex
 documentclass: book
 fontsize: 12pt
 classoption: twoside
 papersize: a4
+toc: false
 bibliography: [references.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
@@ -21,12 +28,17 @@ knitr::opts_chunk$set(echo = FALSE,
 
 # Acknowledgements {-}
 
-I would like to thank...
+Many thanks my dissertation supervisor, Dr Jonathan Jordan, for his 
+helpful input and guidance at the initiation of this work. Thanks also to the 
+numerous colleagues who have shaped my thinking in the course of many 
+stimulating conversations on the topic of record linkage.
 
 # Lay Summary of the Dissertation {-}
 
-Please provide here a summary of your dissertation aimed at a lay reader i.e.\ someone with a good general education, but no university level training in mathematics or statistics.   It should summarise the content, method and results and be one to two pages in length. If in doubt about the content or style of this chapter, please consult your Dissertation Support Worker.
+Target: someone with a good general education, but no university level training in mathematics or statistics.
+Summarise: content, method and results (1-2pages in length).
 
+\setcounter{tocdepth}{1}
 \tableofcontents
 
 \fancyhead{}
