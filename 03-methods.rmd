@@ -25,7 +25,12 @@ Records were subsequently clustered into entities based on linkage matches.
 
 ## Graph measures
 
-[@randall2014]
-status of a  
-first step is to chose a match score threshold 
-The widely used transitive closure method, see Chapter \@ref(intro), was employed.
+
+
+## Graphs
+
+```{r cluster-eg, fig.cap = "An example of a graph. Vertices of the same colour represent records which relate to the same person, edge width is proportional to the match score of the connected records, and true/false links are represented by black/red coloured edges, respectively. Two clusters (red vertices and green vertices) are internally connected with high match scores and connected to one another with (false) match scores only just above the linkage threshold."}
+
+knitr::include_graphics("figures/cluster_example.pdf")
+
+```
