@@ -5,4 +5,5 @@
 /_html/*
 /_book-html-pdf-output/*
 /_bookdown_files/*
+/_book/*
 *.thm
