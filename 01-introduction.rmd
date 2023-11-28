@@ -158,21 +158,21 @@ entity, see also Figure \@ref(fig:transitive-closure).
 ## Graph representation of record linkage outputs
 
 The outputs of a pairwise record linkage process can naturally be represented 
-by undirected graphs with a vertex representing each record and an edge 
+by undirected simple graphs with a vertex representing each record and an edge 
 representing each a comparison of records.
 
 Considering the case with a single match score threshold, one representation 
 may be a graph which only includes edges representing pairwise comparisons that 
-had a match score greater than the threshold.
+had a match score greater than the threshold. This representation has been the 
+focus of previous research identified by the author [@randall2014].
 
-A second representation may include all compared edges with their match score 
-(suitably transformed) as the weight of the edge. If no blocking is used, this 
-graph will be complete but otherwise this will not be the case.
+A second representation may include match scores (suitably transformed) as the 
+weight of the edges (pairwise record comparisons) connecting vertices (records).
 
-A third representation may include not just the overall match score of 
-pairwise record comparisons (edges) but also, for each compared attribute, 
-the contributing component to the overall match score as additional edge 
-attributes.
+A third representation may include not just the overall match score as a weight 
+on each edges (pairwise record comparisons) but also, for each compared 
+attribute, the contributing component to the overall match score as additional 
+edge attributes.
 
 ```{r transitive-closure, fig.cap = "An illustration of transitive closure. The solid lines indicate pairwise comparisons with a match score above a chosen threshold, whereas the dashed line indicates the absence of a pairwise comparisons with a match score above a chosen threshold but nonetheless \"linked\" due to transitive closure.", cache=TRUE}
 DiagrammeR::grViz("graph G {
@@ -191,13 +191,65 @@ knitr::include_graphics("figures/transitive_closure_graph.pdf")
 
 ```
 
-## Graph measures
+## Graphs measures
 
-Previous research has identified that clustered with lowered edge density are 
-more likely to contain false positive matches
+Graph theory is a well developed discipline in mathematics owning its inception 
+to the 17th Century polymath Leonhard Euler. Presently described is a short 
+introduction to the measures investigated in this work.
 
+This work is concerned only with the outputs of a common record linkage process. 
+Specifically only measures at the level of the identified clusters. That is 
+measures of each of the connected graphs in their entirety.
 
+Defined below are the graph measures used in this work and their interpretation.
 
+### Diameter 
+
+The diameter of a graph is the length of the longest of all shortest paths 
+between each pair of vertices in a graph, where the length of a path is defined 
+as the count of edges traversed.
+
+This concept can be extended to encompass edge weights by defining path length 
+as the sum of edge weights of edges traversed.
+
+Diameter gives an indication of the connectedness of vertices in a graph. In the 
+context of record linkage using transitive closure clustering, diameter gives an 
+indication of how "directly" records are linked compared to how much the 
+transitive closure clustering is "linking" records into entities.
+
+### Global Transitivity
+
+Global transitivity is the ratio of wholly connected triplets of vertices to the 
+total number of triplets of vertices in a given graph. 
+
+Global transitivity is a measure of the clustering of the vertices in any given 
+graph. Due to its definition, vertices with more neighbours (connected by an 
+edge) are more highly weighted than vertices with fewer neighbours. 
+
+If transitive closure sparsely connects two or 
+more clusters of more densely connected records (with these clusters 
+-potentially- belonging to truly different entities) then this may be indicated
+by a lower transitivity measure.
+
+### Averaged Local Transitivity
+
+Local transitivity is the ratio of actual edges to possible edges amongst the 
+neighbouring (connected by an edge) vertices of a given vertex in a graph.
+
+The averaged local transitivity is determined by calculating the local 
+transitivity for all vertices in a graph and taking the mean.
+
+Averaged local transitivity is another measure of clustering of the vertices in 
+any given graph. This measure weights each vertex equally, unlike global 
+transitivity, so may ********* it may more readily 
+ide transitive closure sparsely connects two or 
+more clusters of more densely connected records (with these clusters 
+-potentially- belonging to truly different entities) then this may be indicated
+by a lower transitivity measure.
+
+### Assortativity degree
+
+### Density
 
 
 

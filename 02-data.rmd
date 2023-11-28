@@ -159,5 +159,5 @@ The output of each de-duplication process was a dataset with one record per
 pairwise comparison and fields indicating the:
 
 + total match score of the pair of compared records
-+ the relative contribution to the match score from each compared attribute
++ the contribution to the match score from each compared attribute
 + the true match status of the compared records.

@@ -1,19 +1,18 @@
 # Methods {#methods}
 
 The thrust of the work herein described is to evaluate the use of graph measures 
-for identifying clusters of records containing false positive links within the 
+for identifying clusters of records containing false links within the 
 outputs of a commonly used record linkage / de-duplication process.
 
-## Clustering
+## Linkage threshold
 
-De-duplication process outputs must be clustered and, for this, one or more 
-linkage thresholds must be chosen. Whilst in a normal record linkage 
-process the true match status is not known (or known only for a small sample of
-records), the true match status (or "ground truth") is known for all records in
+Whilst in a normal record linkage process the true match status is not known 
+(or known only for a small sample of records), the true match status 
+(or "ground truth") is known for all records in
 the de-duplication datasets. Thus, for each de-duplication dataset, a single 
 linkage threshold was chosen such that compared pairs of records with a match 
-score greater than the threshold were considered as linkage matches, otherwise 
-pairs of records were not considered to be linkage matches.
+score greater than the threshold were considered links, otherwise 
+pairs of records were not considered to be links.
 
 The linkage threshold chosen for each de-duplication datasets was that which 
 maximised the F-measure for that dataset. The F-measure is the harmonic mean of 
@@ -21,13 +20,13 @@ the recall (true matches divided by the sum of the true matches and false
 non-matches) and precision (true matches divided by the sum of the true matches 
 and false matches).
 
-Records were subsequently clustered into entities based on linkage matches.
-
-## Graph measures
-
-
+Linked records were subsequently clustered into entities based on the 
+transitive closure method discussed previously, see Chapter \@ref(intro).
 
 ## Graphs
+
+Since graph measures, in this context, are wholly uninteresting for graphs of 
+less than 3 vertices, all such graphs (of only 1 or 2 vertices) were excluded. 
 
 ```{r cluster-eg, fig.cap = "An example of a graph. Vertices of the same colour represent records which relate to the same person, edge width is proportional to the match score of the connected records, and true/false links are represented by black/red coloured edges, respectively. Two clusters (red vertices and green vertices) are internally connected with high match scores and connected to one another with (false) match scores only just above the linkage threshold."}
 
