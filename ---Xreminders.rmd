@@ -11,7 +11,7 @@ Before we do that, however, just a quick note on commenting on your writing. Not
 
 ## A key theorem 
 
-Later we will find it useful to remember L'evy's continuity theorem (Theorem \@ref(thm:levy)), which we do not prove since it is fairly well known, but complete proofs are available in Section 18.1 of @Williams and Theorems 14.15 and 18.21 of @Fristedt.
+Later we will find it useful to remember L'evy's continuity theorem (Theorem \@ref(thm:levy)), which we do not prove since it is fairly well known, but complete proofs are available in Section 18.1 of .
 
 ```{theorem, label = "levy", echo = TRUE}
 Suppose we have

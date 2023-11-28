@@ -28,8 +28,10 @@ transitive closure method discussed previously, see Chapter \@ref(intro).
 Since graph measures, in this context, are wholly uninteresting for graphs of 
 less than 3 vertices, all such graphs (of only 1 or 2 vertices) were excluded. 
 
-```{r cluster-eg, fig.cap = "An example of a graph. Vertices of the same colour represent records which relate to the same person, edge width is proportional to the match score of the connected records, and true/false links are represented by black/red coloured edges, respectively. Two clusters (red vertices and green vertices) are internally connected with high match scores and connected to one another with (false) match scores only just above the linkage threshold."}
+An example of the graphs generated is illustrated in Figure \@ref(fig:cluster-eg).
 
-knitr::include_graphics("figures/cluster_example.pdf")
+```{r cluster-eg, fig.cap = "An example of two graphs arising from the outputs of a record linkage process. Within each graph vertices of the same colour represent records which relate to the same person, edge width is proportional to the match score of the connected records, and true/false links are represented by black/red coloured edges, respectively. The left graph illustrates records belonging to the same entity densley connected by high match scores. The right graph illustrates two clusters (red vertices and green vertices) which are internally connected with high match scores and connected to one another with (false) match scores only just above the linkage threshold.", fig.show = "hold", fig.align = "center", out.width="49%"}
+
+knitr::include_graphics(paste0("figures/cluster_example", c("2", ""), ".pdf"))
 
 ```

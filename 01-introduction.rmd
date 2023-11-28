@@ -10,7 +10,7 @@ beneficial to link data collections held by different actors.
 
 Record linkage, or entity resolution, is the process of identifying records 
 belonging to the same individual (or entity) from a set or sets of textual
-records. In the absence of "good" unique identifiers other attributes that 
+records. In the absence of _good_ unique identifiers other attributes that 
 relate to the entities present in the sets of compared records may be used to 
 evaluate whether a records belong to the same entity.
 
@@ -29,7 +29,7 @@ addresses may change over time or a child may be have more than one address if,
 for example, their parents live apart.
 
 Attributes can be evaluated not simply based on whether records share precisely 
-the same value but by using "similarity" measures such as, text edit distance 
+the same value but by using _similarity_ measures such as, text edit distance 
 or phonetic similarity for names, and geographic distance for addresses. 
 This makes it possible to give greater weight to record pairs that have 
 differing but similar attribute values, such as "Ann" and "Anne", compared to 
@@ -37,7 +37,7 @@ very different values, such as "Ann" and "Rose".
 
 Deterministic and probabilistic methods are both commonly used to decide 
 whether or not records belongs to the same entity. In the deterministic 
-(or "rules-based") approach a set of one or more rules is constructed that 
+(or _rules-based_) approach a set of one or more rules is constructed that 
 partitions the set of records into disjoint subsets, each of which are 
 considered to belong to the same entity. A "rule" is generally the equality of 
 one or more attributes in the record pairs but may also incorporate thresholds 
@@ -155,6 +155,23 @@ lower than this threshold. In such cases transitive closure is often applied.
 Under transitive closure records A and C are also deemed to belong to the same 
 entity, see also Figure \@ref(fig:transitive-closure).
 
+```{r transitive-closure, fig.cap = "An illustration of transitive closure. The solid lines indicate pairwise comparisons with a match score above a chosen threshold, whereas the dashed line indicates the absence of a pairwise comparisons with a match score above a chosen threshold but nonetheless \"linked\" due to transitive closure.", cache=TRUE}
+DiagrammeR::grViz("graph G {
+layout=neato
+A -- B;
+B -- C;
+edge [style=dashed];
+A -- C [label = \"??\"];
+}",
+height = 200) |> 
+  DiagrammeRsvg::export_svg() |> 
+  charToRaw() |> 
+  rsvg::rsvg_pdf("figures/transitive_closure_graph.pdf")
+
+knitr::include_graphics("figures/transitive_closure_graph.pdf")
+
+```
+
 ## Graph representation of record linkage outputs
 
 The outputs of a pairwise record linkage process can naturally be represented 
@@ -174,89 +191,211 @@ on each edges (pairwise record comparisons) but also, for each compared
 attribute, the contributing component to the overall match score as additional 
 edge attributes.
 
-```{r transitive-closure, fig.cap = "An illustration of transitive closure. The solid lines indicate pairwise comparisons with a match score above a chosen threshold, whereas the dashed line indicates the absence of a pairwise comparisons with a match score above a chosen threshold but nonetheless \"linked\" due to transitive closure.", cache=TRUE}
-DiagrammeR::grViz("graph G {
-layout=neato
-A -- B;
-B -- C;
-edge [style=dashed];
-A -- C [label = \"??\"];
-}",
-height = 200) |> 
-  DiagrammeRsvg::export_svg() |> 
-  charToRaw() |> 
-  rsvg::rsvg_pdf("figures/transitive_closure_graph.pdf")
-
-knitr::include_graphics("figures/transitive_closure_graph.pdf")
-
-```
 
 ## Graphs measures
 
 Graph theory is a well developed discipline in mathematics owning its inception 
-to the 17th Century polymath Leonhard Euler. Presently described is a short 
-introduction to the measures investigated in this work.
+to the 17th Century polymath Leonhard Euler. This work is concerned only with 
+the outputs of a common record linkage process. Specifically, only measures at 
+the level of the identified clusters - connected graphs. Defined 
+below are the graph measures used in this work and their interpretation 
+within that.
 
-This work is concerned only with the outputs of a common record linkage process. 
-Specifically only measures at the level of the identified clusters. That is 
-measures of each of the connected graphs in their entirety.
-
-Defined below are the graph measures used in this work and their interpretation.
-
-### Diameter 
+### Diameter
 
 The diameter of a graph is the length of the longest of all shortest paths 
 between each pair of vertices in a graph, where the length of a path is defined 
-as the count of edges traversed.
+as the count of edges traversed, an example is illustrated in Figure 
+\@ref(fig:gm-diameter). It may take values from 1 up to the count of 
+edges in the graph.
 
 This concept can be extended to encompass edge weights by defining path length 
 as the sum of edge weights of edges traversed.
 
 Diameter gives an indication of the connectedness of vertices in a graph. In the 
 context of record linkage using transitive closure clustering, diameter gives an 
-indication of how "directly" records are linked compared to how much the 
-transitive closure clustering is "linking" records into entities.
+indication of how _directly_ records are linked compared to how much the 
+transitive closure clustering is _linking_ records into entities.
 
-### Global Transitivity
+```{r gm-diameter, fig.cap = "An illustration of graph diameter. Graph 1 (left) illustrates a graph of diameter 1 since all shortest paths between vertices are of length one (traverse a single edge). Graph 2 (right) illustrates a graph of diameter 2 since the shortest (and, in this case, only) path between vertices 'a' and 'c' traverses two edges.", cache=TRUE}
 
-Global transitivity is the ratio of wholly connected triplets of vertices to the 
-total number of triplets of vertices in a given graph. 
+DiagrammeR::grViz(diagram = 'graph {
+graph [layout = dot]
 
-Global transitivity is a measure of the clustering of the vertices in any given 
-graph. Due to its definition, vertices with more neighbours (connected by an 
-edge) are more highly weighted than vertices with fewer neighbours. 
+ subgraph cluster_diam1 {
+    label="Graph 1"
+    
+    a [label="a"];
+    b [label="b"];
+    c [label="c"];
+
+    a -- c;
+    b -- c;
+    a -- b;
+ }
+  
+  subgraph cluster_diam2 {
+    label="Graph 2"
+    
+    a2 [label="a"];
+    b2 [label="b"];
+    c2 [label="c"];
+
+    b2 -- c2;
+    b2 -- a2;
+  }
+
+}',
+height = 150) |>
+  DiagrammeRsvg::export_svg() |>
+  charToRaw() |>
+  rsvg::rsvg_pdf("figures/gm-diameter.pdf")
+
+knitr::include_graphics("figures/gm-diameter.pdf")
+
+```
+
+### Global Clustering Coefficient
+
+Global clustering coefficient is the ratio of wholly connected triplets of vertices to the 
+total number of triplets of vertices in a given graph. It may take values from 
+0 to 1, an example is illustrated on left side of Figure \@ref(fig:gm-cc).
+
+Global clustering coefficient is a measure of the clustering of the vertices in any given 
+graph. Due to its definition, vertices with more neighbours (vertices adjacent 
+[connected by an edge] to the present vertex) are more highly weighted than 
+vertices with fewer neighbours. 
 
 If transitive closure sparsely connects two or 
 more clusters of more densely connected records (with these clusters 
 -potentially- belonging to truly different entities) then this may be indicated
-by a lower transitivity measure.
+by a lower global clustering coefficient.
 
-### Averaged Local Transitivity
+```{r gm-cc, fig.cap = "An illustration of global clustering coefficient and averaged local clustering coefficient. Graph 1 (left) illustrates a graph with global clustering coefficient of 0.75 since there are two sets of wholly connected triplets ({a,b,c} and {a,b,d}) comprising three wholly connected triplets each and two additional triples which are not wholly connected ({d,a,c} and {d,b,c}). Graph 2 (right) illustrates that the averaged local clustering coefficient of the same graph is $\\sfrac56$, the average of the local clustering coefficients of each vertex (the parenthesis in the vertex labels indicates the calculation of the local clustering coefficient for that vertex [actual edges of the possible edges]).", cache=TRUE}
 
-Local transitivity is the ratio of actual edges to possible edges amongst the 
-neighbouring (connected by an edge) vertices of a given vertex in a graph.
+DiagrammeR::grViz(diagram = 'graph {
+graph [layout = dot]
 
-The averaged local transitivity is determined by calculating the local 
-transitivity for all vertices in a graph and taking the mean.
+ subgraph cluster_gcc {
+    label="Graph 1"
+    
+    a [label="a"];
+    b [label="b"];
+    c [label="c"];
+    d [label="d"];
 
-Averaged local transitivity is another measure of clustering of the vertices in 
+    a -- b [penwidth=2];
+    b -- c [penwidth=2];
+    a -- c [penwidth=4];
+    d -- a [penwidth=2];
+    d -- b [penwidth=2];
+ }
+  
+  subgraph cluster_alcc {
+    label="Graph 2"
+    
+    a2 [label="a (2 of 3)"];
+    b2 [label="b (2 of 3)"];
+    c2 [label="c (1 of 1)"];
+    d2 [label="d (1 of 1)"];
+
+    a2 -- b2;
+    b2 -- c2;
+    a2 -- c2;
+    d2 -- a2;
+    d2 -- b2;
+  }
+
+}',
+height = 150) |>
+  DiagrammeRsvg::export_svg() |>
+  charToRaw() |>
+  rsvg::rsvg_pdf("figures/gm-cc.pdf")
+
+knitr::include_graphics("figures/gm-cc.pdf")
+
+```
+
+```{r}
+
+el1 <- data.table::data.table(v1 = c(1:4, 4),
+                                 v2 = c(2:3, 1, 1, 2))
+
+graph1 <- igraph::graph_from_edgelist(as.matrix(el1), directed = FALSE)
+
+
+el2 <- data.table::data.table(v1 = c(1:4),
+                                 v2 = c(2:3, 1, 1))
+
+
+```
+
+
+### Averaged Local Clustering Coefficient
+
+Local clustering coefficient is the ratio of actual edges to possible edges amongst the 
+neighbouring (adjacent) vertices of a given vertex in a graph.
+
+The averaged local clustering coefficient is determined by calculating the local 
+clustering coefficient for all vertices in a graph and taking the mean, an 
+example is illustrated on the right side of Figure \@ref(fig:gm-cc). It 
+may take values from (near) 0 to 1.
+
+Averaged local clustering coefficient is another measure of clustering of the vertices in 
 any given graph. This measure weights each vertex equally, unlike global 
-transitivity, so may ********* it may more readily 
-ide transitive closure sparsely connects two or 
-more clusters of more densely connected records (with these clusters 
--potentially- belonging to truly different entities) then this may be indicated
-by a lower transitivity measure.
+clustering coefficient, so may indicate similar phenomena as global clustering coefficient but more 
+or less sensitively for graphs with different structures.
 
-### Assortativity degree
+### Assortativity (degree)
+
+Assortativity (using degree) is the linear correlation coefficient of degrees (count of 
+incident edges) for each vertex in pairs of neighbouring vertices over 
+the whole graph.  It may take values from -1 to 1. 
+
+A high value (close to +1) of assortativity degree indicates that vertices with 
+higher degree tend to neighbour other vertices with higher degree, and vertices 
+with lower degree tend to neighbour other vertices with lower degree.
+
+Assortativity degree can be interpreted as a measure summarising how vertices 
+in a graph mix together.
+
+In an ideal record linkage process almost all links between records belonging to the
+same entity would be found. This would lead to homogeneous, slightly 
+disassortative (since not all edges may be found but these would be uniformly 
+distributed) graphs, indicated by a slightly negative assortativity degree. The 
+presence of one or few false links may result in very disassortative graphs or 
+slightly positively assortative graphs.
 
 ### Density
 
+Density is the ratio of edges present to the maximum number of 
+possible edges in a given graph. It may take values from (near) 0 to 1.
 
+Density measures the connectedness of vertices in a graph. In the ideal record 
+linkage process, described with the assortativity degree measures, density 
+would be very close to 1. Record linkage outputs in which transitive closure is 
+resolving many records as belonging to the same entity, potentially indicating 
+the presence of one or more false links, would result in a lower density.
 
+## _Problematic_ clusters
 
+This work seeks to identify _problematic_ clusters in the outputs of a record 
+linkage process. In this work, a __problematic cluster__ is a cluster which is 
+formed of three or more records which, in totality, belonging to two or more 
+true entities. Equivalently, a connected graph of three or more vertices 
+(representing records) with at least one edge that represents a false positive 
+link.
 
+### A classification problem
 
+The research question to be addressed is, can a useful classifier be created 
+to identify false positive links using only graph measures derived from the 
+outputs of a common (pairwise) record linkage process.
 
-One of the most difficult problems with record linkage and the evaluation of 
-record linkage outputs is that is rarely the case that the ground truth is 
-known, even amongst a relatively small representative sample.
+In essence, this is an unbalanced binary classification problem in which the 
+individual units are the clusters (of three or more records), with features 
+comprised of various graph measures, and we wish to classify each unit as 
+having either:
+
+0) No false positive links
+1) One or more false positive links.

@@ -72,7 +72,7 @@ dependent on the type of attribute and with probability based on that seen in
 real world datasets [@tromp2011; @hong2013]. The mechanisms are described in 
 Table \@ref(tab:corruption-types). To investigate robustness to level of 
 corruption, datasets were created with multipliers of the base case 
-corruption probabilities of $\{\frac12, 1, 2, 5\}$. 
+corruption probabilities of $\{\sfrac12, 1, 2, 5\}$. 
 
 In each case a deterministically uncorrupted record was retained in addition 
 to the possibly corrupted duplicate records.
